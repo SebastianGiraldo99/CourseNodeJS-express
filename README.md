@@ -18,3 +18,15 @@ Create in the file `Package.json` three scripts :
  # Step 3
  Run in console this commands : 
  - `npm i nodemon eslint eslint-config-prettier eslint-plugin-prettier pritter -D`
+
+
+# Others Concepts 
+Api Rest : 
+This is a protocol http for comunication into backend services and fronted services.
+ - REST -> Representational state transfer.
+ - GET -> Get the information, return data of DB.
+ - PUT -> Update the element ID of any data.
+ - POST -> Create data into BD 
+ - DELETE -> Delete information in our BD.
+
+ 
