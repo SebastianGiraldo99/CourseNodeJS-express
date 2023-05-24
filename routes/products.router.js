@@ -46,4 +46,45 @@ router.get('/:id', (req, res)=>{
   });
 });
 
+
+/**
+ * POST Route
+ */
+router.post('/', (req, res) =>{
+  const body = req.body;
+  if(body){
+    res.status(201).json({
+      message : 'Data creada',
+      data : body
+    });
+  }
+});
+
+
+/**
+ * PATCH Route
+ */
+router.patch('/:id', (req, res) =>{
+  const {id} = req.params
+  const body = req.body;
+  if(body){
+    res.json({
+      message : 'Data actualizada',
+      data : body,
+      id,
+    });
+  }
+});
+
+/**
+ * DELETE Route
+ */
+router.delete('/:id', (req, res) =>{
+  const {id} = req.params
+    res.json({
+      message : 'Data eliminada',
+      id,
+    });
+});
+
 module.exports = router;
