@@ -1,5 +1,5 @@
 const express = require('express');
-const {faker} = require('@faker-js/faker');
+const ProductsService = require('../services/products.service');
 const Product1 = {
   name : 'Product 1 ',
   price : 1000,
@@ -7,6 +7,7 @@ const Product1 = {
 }
 
 const router = express.Router();
+const service = new ProductsService();
 
 /**
  * Route in Router.
@@ -17,16 +18,7 @@ const router = express.Router();
  */
 
 router.get('/', (req, res) => {
-  const products = [];
-  const {size} = req.query;
-  limit = size || 30;
-  for (let index = 0; index < limit; index++) {
-    products.push({
-      name : faker.commerce.productName(),
-      price : parseInt(faker.commerce.price(), 10),
-      image : faker.image.url(),
-    })
-  };
+  const products = service.find();
   res.json({
     products
   });
@@ -40,9 +32,9 @@ router.get('/filter', (req,res) =>{
 //
 router.get('/:id', (req, res)=>{
   const {id} = req.params;
+  const product = service.findOne(id);
   res.json({
-    id,
-    ...Product1
+    product
   });
 });
 
@@ -52,10 +44,10 @@ router.get('/:id', (req, res)=>{
  */
 router.post('/', (req, res) =>{
   const body = req.body;
+  const newProduct = service.create(body);
   if(body){
     res.status(201).json({
-      message : 'Data creada',
-      data : body
+      newProduct
     });
   }
 });
@@ -67,12 +59,9 @@ router.post('/', (req, res) =>{
 router.patch('/:id', (req, res) =>{
   const {id} = req.params
   const body = req.body;
+  const product = service.update(id, body);
   if(body){
-    res.json({
-      message : 'Data actualizada',
-      data : body,
-      id,
-    });
+    res.json(product);
   }
 });
 
@@ -81,10 +70,8 @@ router.patch('/:id', (req, res) =>{
  */
 router.delete('/:id', (req, res) =>{
   const {id} = req.params
-    res.json({
-      message : 'Data eliminada',
-      id,
-    });
+  const product = service.delete(id);
+    res.json(product);
 });
 
 module.exports = router;
