@@ -1,7 +1,7 @@
 const express = require('express');
 const {faker} = require('@faker-js/faker');
 const routerApi = require('./routes');
-const {logErrors, errorHandler} = require('./middlewares/error.handler');
+const {logErrors, errorHandler, boomErrorHandler} = require('./middlewares/error.handler');
 
 
 const Product1 = {
@@ -31,6 +31,7 @@ app.get('/new-route', (req, res) => {
 routerApi(app);
 
 app.use(logErrors);
+app.use(boomErrorHandler);
 app.use(errorHandler);
 
 
