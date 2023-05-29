@@ -1,5 +1,6 @@
 const express = require('express');
 const {faker} = require('@faker-js/faker');
+const cors = require('cors');
 const routerApi = require('./routes');
 const {logErrors, errorHandler, boomErrorHandler} = require('./middlewares/error.handler');
 
@@ -11,7 +12,20 @@ const Product1 = {
 }
 const app = express();
 
-const port = 3000;
+const port = process.env.PORT || 3000;
+
+
+const witheList = ['http://localhost:8080', 'https://othersite.com'];
+const options =  {
+  origin : (origin, callbakc) => {
+    if(witheList.includes(origin) || !origin){
+      callbakc(null, true);
+    }else{
+      callbakc(new Error ('Not permissions'));
+    }
+  }
+}
+app.use(cors(options));
 
 app.use(express.json());
 
