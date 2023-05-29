@@ -32,13 +32,13 @@ app.use(express.json());
 /**
  * Default route
  */
-app.get('/', (req, res) => {
+app.get('/api/', (req, res) => {
     res.send('This is my first server in node');
 });
 /**
  * Other route
  */
-app.get('/new-route', (req, res) => {
+app.get('/api/new-route', (req, res) => {
   res.send("This is other route, it's a personalizate route");
 });
 
