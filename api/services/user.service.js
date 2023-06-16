@@ -1,35 +1,43 @@
-const getConnetcion = require('../libs/postgres');
-const pool = require('../libs/postgres.pool');
+// const getConnetcion = require('../libs/postgres');
+// const pool = require('../libs/postgres.pool');
+const boom = require('@hapi/boom');
+const {models} = require('../libs/sequelize');
 
 
 class UserService {
   constructor (){
-    this.pool = pool;
-    pool.on('error', (err)=>console.error(err));
+    // this.pool = pool;
+    // pool.on('error', (err)=>console.error(err));
   }
 
   async create(data){
-    return data;
+    const newUser = await models.User.create(data);
+    return newUser;
   }
 
   async find(){
-    const query = 'SELECT * FROM task';
-    const rta = await this.pool.query(query);
-    //Se reemplaza por la conexion por una de tipo Pool
-    // const client = await getConnetcion();
-    // const rta = await client.query('SELECT * FROM task');
-    return rta.rows;
+    const rta = await models.User.findAll();
+    return rta;
   }
 
   async findOne(id){
-    return {id};
+    const user = await models.User.findByPk(id);
+    if(!user){
+      throw boom.notFound('User not found');
+    }
+    return user;
   }
   async update(id, changes){
-    return {id, changes};
+    const user = await this.findOne(id);
+    const rta = await user.update(changes);
+    return rta;
+
   }
 
   async delete (id){
-    return {id};
+    const user = await this.findOne(id);
+    const rta = await user.destroy(id);
+    return rta;
   }
 
 }
