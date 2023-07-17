@@ -2,7 +2,7 @@ const express = require('express');
 const {faker} = require('@faker-js/faker');
 const cors = require('cors');
 const routerApi = require('./routes');
-const {logErrors, errorHandler, boomErrorHandler} = require('./middlewares/error.handler');
+const {logErrors, errorHandler, boomErrorHandler, ormErrorHandler} = require('./middlewares/error.handler');
 
 
 const Product1 = {
@@ -45,9 +45,9 @@ app.get('/api/new-route', (req, res) => {
 routerApi(app);
 
 app.use(logErrors);
+app.use(ormErrorHandler);
 app.use(boomErrorHandler);
 app.use(errorHandler);
-
 
 app.listen(port, () =>{
     console.log('This is the port of my app: ' + port);
