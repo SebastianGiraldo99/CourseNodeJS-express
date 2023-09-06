@@ -9,14 +9,27 @@ class CustomerService {
     // this.pool = pool;
     // pool.on('error', (err)=>console.error(err));
   }
-
+  // FORMA MANUAL DE CREAR DATOS ANIDADOS
+  // async create(data){
+  //   const newUser = await models.User.create(data.user);
+  //   const newCustomer = await models.Customer.create({
+  //     ...data,
+  //     userId : newUser.id
+  //   });
+  //   return newCustomer;
+  // }
   async create(data){
-    const newCustomer = await models.Customer.create(data);
+    const newCustomer = await models.Customer.create(data, {
+      include : ['user'],
+    })
     return newCustomer;
   }
 
+
   async find(){
-    const rta = await models.Customer.findAll();
+    const rta = await models.Customer.findAll({
+      include: ['user'],
+    });
     return rta;
   }
 

@@ -1,3 +1,4 @@
+const {createUserSchema, updateUserSchema} = require('./user.schema')
 const Joi = require('joi');
 
 const id = Joi.number().integer();
@@ -15,13 +16,14 @@ const updateCustomerSchema =  Joi.object({
   lastName,
   phone,
   userId,
+  updateUserSchema,
 });
 
 const createCustomerSchema =  Joi.object({
   firstName : firstName.required(),
   lastName : lastName.required(),
   phone : phone.required(),
-  userId : userId.required()
+  user : createUserSchema,
 });
 
 module.exports = {getCustomerSchema, updateCustomerSchema, createCustomerSchema};
