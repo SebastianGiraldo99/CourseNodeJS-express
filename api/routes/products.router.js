@@ -1,5 +1,5 @@
 const express = require('express');
-const ProductsService = require('../services/products.service');
+const ProductsService = require('../services/product.service');
 const validatorHandler = require('../middlewares/validator.handler');
 const {createProductSchema, updateProductSchema, getProductSchema} = require('../schemas/product.schema');
 const Product1 = {
@@ -53,13 +53,17 @@ router.get('/:id',
  */
   router.post('/',
     validatorHandler(createProductSchema, 'body'),
-      async (req, res) =>{
-        const body = req.body;
-        const newProduct = await service.create(body);
-        if(body){
-          res.status(201).json({
-            newProduct
-          });
+      async (req, res, next) =>{
+        try{
+          const body = req.body;
+          const newProduct = await service.create(body);
+          if(body){
+            res.status(201).json({
+              newProduct
+            });
+          }
+        }catch (error){
+          next(error);
         }
       }
 );
