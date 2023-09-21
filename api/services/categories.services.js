@@ -1,4 +1,5 @@
 const {faker} = require('@faker-js/faker');
+const {models } = require('../libs/sequelize');
 class CategoriesServices {
 
   constructor()
