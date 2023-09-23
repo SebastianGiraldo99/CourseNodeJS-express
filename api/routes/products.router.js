@@ -1,7 +1,7 @@
 const express = require('express');
 const ProductsService = require('../services/product.service');
 const validatorHandler = require('../middlewares/validator.handler');
-const {createProductSchema, updateProductSchema, getProductSchema} = require('../schemas/product.schema');
+const {createProductSchema, updateProductSchema, getProductSchema, queryProductSchema} = require('../schemas/product.schema');
 const Product1 = {
   name : 'Product 1 ',
   price : 1000,
@@ -19,11 +19,17 @@ const service = new ProductsService();
  * Route with params
  */
 
-router.get('/', async (req, res) => {
-  const products = await service.find();
-  res.json({
-    products
-  });
+router.get('/',
+  validatorHandler(queryProductSchema, 'query'),
+  async (req, res) => {
+  try{
+    const products = await service.find(req.query);
+    res.json({
+      products
+    });
+  }catch (error){
+    next(error)
+  }
 });
 
 // Especific route
