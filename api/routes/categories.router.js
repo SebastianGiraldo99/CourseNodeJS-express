@@ -48,7 +48,7 @@ router.post('/',
 
 router.patch('/:id',
   validatorHandler(getCategorySchema, 'params'),
-  validatorHandler(getCategorySchema, 'body'),
+  validatorHandler(updateCategorySchema, 'body'),
   async (req, res) =>{
     const {id} = req.params
     const body = req.body;
