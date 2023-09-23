@@ -21,14 +21,14 @@ const service = new ProductsService();
 
 router.get('/',
   validatorHandler(queryProductSchema, 'query'),
-  async (req, res) => {
+  async (req, res, next) => {
   try{
     const products = await service.find(req.query);
     res.json({
       products
     });
   }catch (error){
-    next(error)
+    next(error);
   }
 });
 
